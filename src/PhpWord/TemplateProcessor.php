@@ -351,6 +351,29 @@ class TemplateProcessor
 
         return $xmlBlock;
     }
+    
+    public function cloneBlockOnce($blockname, $clones = 1, $replace = true) {
+    	$xmlBlock = null;
+    	preg_match(
+    			'/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+    			$this->tempDocumentMainPart,
+    			$matches
+    			);
+    	
+    	if (isset($matches[3])) {
+    		$xmlBlock = $matches[3];
+    		$cloned = array();
+    		for ($i = 1; $i <= $clones; $i++) {
+    			$cloned[] = $xmlBlock;
+    		}
+    		
+    		if ($replace) {
+    			$this->tempDocumentMainPart = preg_replace('/'.preg_quote($matches[2] . $matches[3] . $matches[4],'/').'/', implode('', $cloned),$this->tempDocumentMainPart,1);
+    		}
+    	}
+    	
+    	return $xmlBlock;
+    }
 
     /**
      * Replace a block.
