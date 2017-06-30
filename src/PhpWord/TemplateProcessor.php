@@ -352,6 +352,15 @@ class TemplateProcessor
         return $xmlBlock;
     }
     
+    /**
+     * Clone a block once.
+     *
+     * @param string $blockname
+     * @param integer $clones
+     * @param boolean $replace
+     *
+     * @return string|null
+     */
     public function cloneBlockOnce($blockname, $clones = 1, $replace = true) {
     	$xmlBlock = null;
     	preg_match(
